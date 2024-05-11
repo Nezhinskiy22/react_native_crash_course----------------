@@ -12,7 +12,7 @@ const VideoCard = ({
 }) => {
   const [play, setPlay] = useState(false);
 
-  console.log(video, title);
+  console.log(video, title, username);
 
   return (
     <View className="flex-col items-center px-4 mb-14">

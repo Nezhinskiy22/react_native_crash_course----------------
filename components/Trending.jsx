@@ -14,7 +14,7 @@ const zoomIn = {
     scale: 0.9,
   },
   1: {
-    scale: 1,
+    scale: 1.1,
   },
 };
 
@@ -44,7 +44,7 @@ const TrendingItem = ({ activeItem, item }) => {
           onPress={() => setPlay(true)}
         >
           <ImageBackground
-            source={{ uri: item.thimbnail }}
+            source={{ uri: item.thumbnail }}
             className="w-52 h-72 rounded-[35px] my-5 overflow-hidden shadow-lg shadow-black/40"
             resizeMode="cover"
           />
@@ -60,16 +60,26 @@ const TrendingItem = ({ activeItem, item }) => {
 };
 
 const Trending = ({ posts }) => {
-  const [activeItem, setActiveItem] = useState(posts[0]);
+  const [activeItem, setActiveItem] = useState(posts[1]);
+  const viewableItemsChanged = ({ viewableItems }) => {
+    if (viewableItems.length > 0) {
+      setActiveItem(viewableItems[0].key);
+    }
+  };
 
   return (
     <FlatList
       data={posts}
-      keyExptractor={(item) => item.$id}
+      horizontal
+      keyExtractor={(item) => item.$id}
       renderItem={({ item }) => (
         <TrendingItem activeItem={activeItem} item={item} />
       )}
-      horizontal
+      onViewableItemsChanged={viewableItemsChanged}
+      viewabilityConfig={{
+        itemVisiblePercentThreshold: 70,
+      }}
+      contentOffset={{ x: 170 }}
     />
   );
 };
